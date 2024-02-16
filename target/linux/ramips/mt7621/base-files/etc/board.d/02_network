@@ -17,7 +17,6 @@ ramips_setup_interfaces()
 	h3c,tx1806|\
 	haier,har-20s2u1|\
 	hiwifi,hc5962|\
-	jdcloud,re-cp-02|\
 	mercusys,mr70x-v1|\
 	netgear,wax202|\
 	sim,simax1800t|\
@@ -75,6 +74,7 @@ ramips_setup_interfaces()
 	iodata,wn-deax1800gr|\
 	iptime,a3002mesh|\
 	jcg,q20|\
+	jcg,q20-pb-boot|\
 	jdcloud,re-sp-01b|\
 	lenovo,newifi-d1|\
 	mikrotik,routerboard-m33g|\
@@ -165,6 +165,12 @@ ramips_setup_interfaces()
 	comfast,cf-ew72-v2|\
 	meig,slt866)
 		ucidef_set_interfaces_lan_wan "lan" "wan"
+		;;
+	ez,ez-5g-cpe|\
+	zbtlink,zbt-wg2626-16m|\
+	zbtlink,zbt-wg2626-32m)
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"
+		ucidef_set_interface "5g" device "usb0" protocol "${2:-dhcp}"
 		;;
 	*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"

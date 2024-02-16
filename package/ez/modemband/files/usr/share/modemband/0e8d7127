@@ -1,0 +1,93 @@
+_DEVICE=/dev/ttyUSB0
+_DEFAULT_LTE_BANDS="1 2 3 4 5 7 8 12 13 14 17 18 19 20 25 26 28 29 30 32 34 38 39 40 41 42 43 46 48 66 71"
+_DEFAULT_5GSA_BANDS="1 2 3 5 7 8 20 25 28 30 38 40 41 48 66 71 77 78 79"
+
+getinfo() {
+	echo "Fibocom FM650-CN"
+}
+
+getsupportedbands() {
+	echo "$_DEFAULT_LTE_BANDS"
+}
+
+getbands() {
+	O=$(sms_tool -d $_DEVICE at "at+gtact?")
+	BANDS=$(echo "$O" | awk -F: '/^\+GTACT:/{gsub(","," ");print $2}')
+	for BAND in $BANDS; do
+		if [ $BAND -gt 100 ] && [ $BAND -lt 200 ]; then
+			echo -n "$((BAND - 100)) "
+		fi
+	done
+	echo ""
+}
+
+setbands() {
+	BANDS="$1"
+
+	T=""
+	if [ "$BANDS" = "default" ]; then
+		T="0"
+	else
+		for BAND in $BANDS; do
+			case $BAND in
+				''|*[!0-9]*) continue ;;
+			esac
+			[ -n "$T" ] && T="${T},"
+			T="${T}$((BAND + 100))"
+		done
+	fi
+
+	if [ -n "$T" ]; then
+		O=$(sms_tool -d $_DEVICE at "at+gtact?")
+		MODE=$(echo "$O" | awk -F[:,] '{print $2}' | xargs)
+		sms_tool -d $_DEVICE at "at+gtact=$MODE,,,$T"
+	fi
+}
+
+#getsupportedbands5gnsa() {
+#	echo "$_DEFAULT_5GNSA_BANDS"
+#}
+
+getbands5gsa() {
+	O=$(sms_tool -d $_DEVICE at "at+gtact?")
+	BANDS=$(echo "$O" | awk -F: '/^\+GTACT:/{gsub(","," ");print $2}')
+	for BAND in $BANDS; do
+		if [ $BAND -gt 500 ] && [ $BAND -lt 1000 ]; then
+			echo -n "$((BAND - 500)) "
+		elif [ $BAND -gt 1000 ]; then
+			echo -n "$((BAND - 5000)) "		
+		fi
+	done
+	echo ""
+}
+
+getsupportedbands5gsa() {
+	echo "$_DEFAULT_5GSA_BANDS"
+}
+
+setbands5gsa() {
+	BANDS="$1"
+
+	T=""
+	if [ "$BANDS" = "default" ]; then
+		T="0"
+	else
+		for BAND in $BANDS; do
+			case $BAND in
+				''|*[!0-9]*) continue ;;
+			esac
+			[ -n "$T" ] && T="${T},"
+			if [ "$BAND" -ge 10 ]; then
+				T="${T}$((BAND + 5000))"
+			else
+				T="${T}$((BAND + 500))"
+			fi
+		done
+	fi
+
+	if [ -n "$T" ]; then
+		O=$(sms_tool -d $_DEVICE at "at+gtact?")
+		MODE=$(echo "$O" | awk -F[:,] '{print $2}' | xargs)
+		sms_tool -d $_DEVICE at "at+gtact=$MODE,,,$T"
+	fi
+}

@@ -1,0 +1,9 @@
+
+config modemband
+	option iface '5G'
+	option wanrestart '0'
+	option modemrestart '0'
+	option notify '0'
+	option set_port '/dev/ttyUSB0'
+	option modemid '2cb70a05'
+

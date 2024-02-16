@@ -1,0 +1,7 @@
+Signal Quality/Strength ➜ AT+CSQ;AT+CSQ
+REBOOT ➜ AT+CFUN=15
+Operator ➜ AT+COPS?
+SIM Status ➜ AT+CPIN?
+Select RAT and BAND ➜ AT+GTACT?
+Get Current Cell Information ➜ AT+GTCCINFO?
+Configure Cell lock information ➜ AT+GTCELLLOCK?

@@ -1502,6 +1502,12 @@ define Device/jcg_q20
 endef
 TARGET_DEVICES += jcg_q20
 
+define Device/jcg_q20-pb-boot
+  $(Device/jcg_q20)
+  DEVICE_MODEL += (pb-boot)
+endef
+TARGET_DEVICES += jcg_q20-pb-boot
+
 define Device/jcg_y2
   $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
@@ -1515,23 +1521,13 @@ define Device/jcg_y2
 endef
 TARGET_DEVICES += jcg_y2
 
-define Device/jdcloud_re-cp-02
-  $(Device/dsa-migration)
-  $(Device/uimage-lzma-loader)
-  IMAGE_SIZE := 16000k
-  DEVICE_VENDOR := JD-Cloud
-  DEVICE_MODEL := RE-CP-02
-  DEVICE_PACKAGES := kmod-mt7915-firmware kmod-sdhci-mt7620 automount
-endef
-TARGET_DEVICES += jdcloud_re-cp-02
 
 define Device/jdcloud_re-sp-01b
-  $(Device/dsa-migration)
   IMAGE_SIZE := 27328k
   DEVICE_VENDOR := JDCloud
   DEVICE_MODEL := RE-SP-01B
-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt7615e kmod-mt7615-firmware \
-	kmod-sdhci-mt7620 kmod-usb3 automount
+  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7603 kmod-mt7615e \
+	kmod-mt7615-firmware kmod-sdhci-mt7620 kmod-usb3
 endef
 TARGET_DEVICES += jdcloud_re-sp-01b
 
@@ -3020,17 +3016,43 @@ define Device/zbtlink_zbt-wg1608-32m
 endef
 TARGET_DEVICES += zbtlink_zbt-wg1608-32m
 
-define Device/zbtlink_zbt-wg2626
+define Device/zbtlink_zbt-wg2626-16m
   $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 16064k
   DEVICE_VENDOR := Zbtlink
   DEVICE_MODEL := ZBT-WG2626
+  DEVICE_VARIANT := 16M
   DEVICE_PACKAGES := kmod-ata-ahci kmod-sdhci-mt7620 kmod-mt76x2 kmod-usb3 \
 	kmod-usb-ledtrig-usbport -uboot-envtools
-  SUPPORTED_DEVICES += zbt-wg2626
+  SUPPORTED_DEVICES += zbt-wg2626-16m
 endef
-TARGET_DEVICES += zbtlink_zbt-wg2626
+TARGET_DEVICES += zbtlink_zbt-wg2626-16m
+
+define Device/zbtlink_zbt-wg2626-32m
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := Zbtlink
+  DEVICE_MODEL := ZBT-WG2626
+  DEVICE_VARIANT := 32M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-sdhci-mt7620 kmod-mt76x2 kmod-usb3 \
+	kmod-usb-ledtrig-usbport -uboot-envtools
+  SUPPORTED_DEVICES += zbt-wg2626-32m
+endef
+TARGET_DEVICES += zbtlink_zbt-wg2626-32m
+
+define Device/ez_ez-5g-cpe
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := EZ
+  DEVICE_MODEL := EZ-5G-CPE
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-sdhci-mt7620 kmod-mt76x2 kmod-usb3 \
+	kmod-usb-ledtrig-usbport -uboot-envtools
+  SUPPORTED_DEVICES += ez-5g-cpe
+endef
+TARGET_DEVICES += ez_ez-5g-cpe
 
 define Device/zbtlink_zbt-wg3526-16m
   $(Device/dsa-migration)

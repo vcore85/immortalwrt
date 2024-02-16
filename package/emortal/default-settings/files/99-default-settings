@@ -12,6 +12,33 @@ if ! uci -q get system.@imm_init[0].lang > "/dev/null"; then
 	EOF
 fi
 
+uci -q batch <<-EOF
+	set network.5g6.auto=0
+	set network.wgc=interface
+	set network.wgc.proto='wireguard'
+	set network.wgc.private_key='GLCvFtlNAsWxVxn7SGLJYZZl7h4PtLXHOmlgKOsvEWQ='
+	set network.wgc.addresses='192.168.201.7/24'
+	set network.wgc.auto=0
+	add network wireguard_wgc
+	set network.@wireguard_wgc[0].description='import'
+	set network.@wireguard_wgc[0].public_key='fZGGIb3xfHhwWKgT6cNGb9cAxHr2ZALF/d/GpKb5AT4='
+	set network.@wireguard_wgc[0].preshared_key='SI4MCw7rLQ4VAWnuDloS9ZimIc18Lgsz5IlFhTZc5HI='
+	set network.@wireguard_wgc[0].allowed_ips='192.168.201.0/24'
+	set network.@wireguard_wgc[0].persistent_keepalive='25'
+	set network.@wireguard_wgc[0].endpoint_host='101.43.170.219'
+	set network.@wireguard_wgc[0].endpoint_port='50800'
+	commit network
+	
+	add_list firewall.@zone[1].network="5g"
+	add_list firewall.@zone[1].network="5g6"
+	add_list firewall.@zone[0].network="wgc"
+	commit firewall
+	
+	delete dropbear.@dropbear[0].Interface
+	commit dropbear
+
+EOF
+
 ln -sf "/sbin/ip" "/usr/bin/ip"
 
 sed -i "/log-facility/d" "/etc/dnsmasq.conf"

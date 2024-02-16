@@ -1,0 +1,21 @@
+
+config sms_tool_js
+	option storage 'SM'
+	option mergesms '0'
+	option pnumber '48'
+	option prefix '1'
+	option lednotify '0'
+	option ussd '0'
+	option pdu '0'
+	option sendingroup '0'
+	option information '1'
+	option atport '/dev/ttyUSB0'
+	option checktime '10'
+	option prestart '6'
+	option ledtype 'D'
+	option readport '/dev/ttyUSB0'
+	option sendport '/dev/ttyUSB0'
+	option ussdport '/dev/ttyUSB0'
+	option sms_count_index '12 13 11 10 8 9 6 7 5 3 4 2 1'
+	option sms_count '11'
+
