@@ -196,6 +196,18 @@ define Device/nand
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 
+define Device/ez_ez-5g-cpe
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := EZ
+  DEVICE_MODEL := EZ-5G-CPE
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-sdhci-mt7620 kmod-mt76x2 kmod-usb3 \
+	kmod-usb-ledtrig-usbport -uboot-envtools
+  SUPPORTED_DEVICES += ez-5g-cpe
+endef
+TARGET_DEVICES += ez_ez-5g-cpe
+
 define Device/adslr_g7
   $(Device/dsa-migration)
   IMAGE_SIZE := 16064k
@@ -3045,18 +3057,6 @@ define Device/zbtlink_zbt-wg2626-32m
   SUPPORTED_DEVICES += zbt-wg2626-32m
 endef
 TARGET_DEVICES += zbtlink_zbt-wg2626-32m
-
-define Device/ez_ez-5g-cpe
-  $(Device/dsa-migration)
-  $(Device/uimage-lzma-loader)
-  IMAGE_SIZE := 32448k
-  DEVICE_VENDOR := EZ
-  DEVICE_MODEL := EZ-5G-CPE
-  DEVICE_PACKAGES := kmod-ata-ahci kmod-sdhci-mt7620 kmod-mt76x2 kmod-usb3 \
-	kmod-usb-ledtrig-usbport -uboot-envtools
-  SUPPORTED_DEVICES += ez-5g-cpe
-endef
-TARGET_DEVICES += ez_ez-5g-cpe
 
 define Device/zbtlink_zbt-wg3526-16m
   $(Device/dsa-migration)
