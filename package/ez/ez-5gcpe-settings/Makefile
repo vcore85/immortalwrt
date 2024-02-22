@@ -23,9 +23,10 @@ endef
 
 define Package/ez-5gcpe-settings/install
 	$(INSTALL_DIR) $(1)/usr/bin/
-	$(INSTALL_BIN) ./files/fibercom_connect.sh $(1)/usr/bin/
-	$(INSTALL_BIN) ./files/init_3ginfo_modemband.sh $(1)/usr/bin/
-	$(INSTALL_BIN) ./files/reboot5gmodule.sh $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/fibercom_connect $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/reboot5gmodule $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/fclink $(1)/etc/init.d/
 endef
 
 $(eval $(call BuildPackage,ez-5gcpe-settings))

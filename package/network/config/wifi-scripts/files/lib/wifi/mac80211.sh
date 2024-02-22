@@ -181,6 +181,9 @@ detect_mac80211() {
 		config_foreach check_mac80211_device wifi-device "$path" "$macaddr"
 		[ -n "$found" ] && continue
 
+		phy_mac="$(hexdump -s 0x4 -n 6 -e '16/1 "%02X""\n"' /dev/mtd2)"
+		ssid_mac=$(echo $phy_mac | busybox tail -c 5)
+		
 		name="radio${devidx}"
 		devidx=$(($devidx + 1))
 		case "$dev" in
@@ -210,7 +213,7 @@ detect_mac80211() {
 			set wireless.default_${name}.device=${name}
 			set wireless.default_${name}.network=lan
 			set wireless.default_${name}.mode=ap
-			set wireless.default_${name}.ssid=EZ-5G-CPE
+			set wireless.default_${name}.ssid=EZ-5G-CPE_${ssid_mac}
 			set wireless.default_${name}.encryption=psk2
 			set wireless.default_${name}.key=88888888
 EOF
