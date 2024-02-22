@@ -186,12 +186,14 @@ if [ -z "$DEVICE" ]; then
 	exit 0
 fi
 
+sms_tool -d $DEVICE at "AT+CGREG=2" >/dev/null
 O=""
 if [ -e /usr/bin/sms_tool ]; then
-	O=$(sms_tool -D -d $DEVICE at "AT+CPIN?;+CSQ;+COPS=3,2;+COPS?;+CGREG=2")
+	O=$(sms_tool -D -d $DEVICE at "AT+CPIN?;+CSQ;+COPS=3,2;+COPS?")
 else
 	O=$(gcom -d $DEVICE -s $RES/info.gcom 2>/dev/null)
 fi
+
 
 
 SECT=$(uci -q get 3ginfo.@3ginfo[0].network)

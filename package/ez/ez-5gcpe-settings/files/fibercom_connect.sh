@@ -16,7 +16,7 @@ if [ -n "$usbid" ]; then
             sleep 20
             while true
                 do  
-                    if [ -z "$(sms_tool -d /dev/ttyUSB2 at 'AT+GTRNDIS?' | grep -o -E '0.0.0.0')" ]; then
+                    if [ -z "$(sms_tool -d /dev/ttyUSB2 at 'AT+GTRNDIS?' | grep -o -E '0\.0\.0\.0')" ]; then
                         echo "FM150-AE has IP address"
                         sleep 15
                         continue
@@ -41,7 +41,7 @@ if [ -n "$usbid" ]; then
             sleep 20
             while true
                 do  
-                    if [ -z "$(sms_tool -d /dev/ttyUSB0 at 'AT+GTRNDIS?' | grep -o -E '0.0.0.0')" ]; then
+                    if [ -z "$(sms_tool -d /dev/ttyUSB0 at 'AT+GTRNDIS?' | grep -o -E '0\.0\.0\.0')" ]; then
                         echo "FM650 has IP address"
                         sleep 15
                         continue
