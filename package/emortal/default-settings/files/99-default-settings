@@ -14,19 +14,6 @@ fi
 
 uci -q batch <<-EOF
 	set network.5g6.auto=0
-	set network.wgc=interface
-	set network.wgc.proto='wireguard'
-	set network.wgc.private_key='GLCvFtlNAsWxVxn7SGLJYZZl7h4PtLXHOmlgKOsvEWQ='
-	set network.wgc.addresses='192.168.201.7/24'
-	set network.wgc.auto=0
-	add network wireguard_wgc
-	set network.@wireguard_wgc[0].description='import'
-	set network.@wireguard_wgc[0].public_key='fZGGIb3xfHhwWKgT6cNGb9cAxHr2ZALF/d/GpKb5AT4='
-	set network.@wireguard_wgc[0].preshared_key='SI4MCw7rLQ4VAWnuDloS9ZimIc18Lgsz5IlFhTZc5HI='
-	set network.@wireguard_wgc[0].allowed_ips='192.168.201.0/24'
-	set network.@wireguard_wgc[0].persistent_keepalive='25'
-	set network.@wireguard_wgc[0].endpoint_host='101.43.170.219'
-	set network.@wireguard_wgc[0].endpoint_port='50800'
 	commit network
 	
 	add_list firewall.@zone[1].network="5g"
@@ -39,56 +26,73 @@ uci -q batch <<-EOF
 
 EOF
 
-usbid=`lsusb | grep -i '2cb7' | awk '{print $6}'`
-usbid_fm350=`lsusb | grep -i '0e8d' | awk '{print $6}'`
+usbpid=`grep  "Vendor=2cb7" /sys/kernel/debug/usb/devices | awk -F '[= ]' '{print $6}'`
+usbpid_fm350=`grep  "Vendor=0e8d" /sys/kernel/debug/usb/devices | awk -F '[= ]' '{print $6}'`
 
-if [ "$usbid" = "2cb7:0105" ]; then
+if [ "$usbpid" = "0105" ]; then
 #    echo "FM150-AE"
-    uci set modemband.@modemband[0].set_port='/dev/ttyUSB2'
-    uci set modemband.@modemband[0].modemid='2cb7:0105'
-    uci commit modemband
-    uci set 3ginfo.@3ginfo[0].device='/dev/ttyUSB2'
-    uci commit 3ginfo
-    uci set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB2'
-    uci set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB2'
-    uci set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB2'
-    uci set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB2'
-    uci commit sms_tool_js
-        uci set luci_statistics.collectd_interface.Interfaces='usb0'
-        uci commit luci_statistics
-        /etc/init.d/luci_statistics restart
-elif [ "$usbid" = "2cb7:0a05" ]; then
+	uci -q batch <<-EOF
+		set modemband.@modemband[0].set_port='/dev/ttyUSB2'
+		set modemband.@modemband[0].modemid='2cb7:0105'
+		commit modemband
+		
+		set 3ginfo.@3ginfo[0].device='/dev/ttyUSB2'
+		commit 3ginfo
+		
+		set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB2'
+		commit sms_tool_js
+		
+		set luci_statistics.collectd_interface.Interfaces='usb0'
+		commit luci_statistics
+
+	EOF
+elif [ "$usbpid" = "0a05" ]; then
 #    echo "FM650-CN"
-    uci set modemband.@modemband[0].set_port='/dev/ttyUSB0'
-    uci set modemband.@modemband[0].modemid='2cb7:0a05'
-    uci commit modemband
-    uci set 3ginfo.@3ginfo[0].device='/dev/ttyUSB0'
-    uci commit 3ginfo
-    uci set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB0'
-    uci commit sms_tool_js
-        uci set luci_statistics.collectd_interface.Interfaces='usb0'
-        uci commit luci_statistics
-        /etc/init.d/luci_statistics restart
-elif [ "$usbid_fm350" = "0e8d:7127" ]; then
+	uci -q batch <<-EOF
+		set modemband.@modemband[0].set_port='/dev/ttyUSB0'
+		set modemband.@modemband[0].modemid='2cb7:0a05'
+		
+		commit modemband
+		
+		set 3ginfo.@3ginfo[0].device='/dev/ttyUSB0'
+		commit 3ginfo
+		
+		set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB0'
+		commit sms_tool_js
+		
+		set luci_statistics.collectd_interface.Interfaces='usb0'
+		commit luci_statistics
+
+	EOF
+elif [ "$usbpid_fm350" = "7127" ]; then
 #    echo "FM350-GL"
-    uci set modemband.@modemband[0].set_port='/dev/ttyUSB0'
-    uci set modemband.@modemband[0].modemid='0e8d:7127'
-    uci commit modemband
-    uci set 3ginfo.@3ginfo[0].device='/dev/ttyUSB0'
-    uci commit 3ginfo
-    uci set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB0'
-    uci set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB0'
-    uci commit sms_tool_js
-        uci set luci_statistics.collectd_interface.Interfaces='eth1'
-        uci commit luci_statistics
-        /etc/init.d/luci_statistics restart
+	uci -q batch <<-EOF
+		set modemband.@modemband[0].set_port='/dev/ttyUSB0'
+		set modemband.@modemband[0].modemid='0e8d:7127'
+		commit modemband
+		
+		set 3ginfo.@3ginfo[0].device='/dev/ttyUSB0'
+		commit 3ginfo
+		
+		set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB0'
+		set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB0'
+		commit sms_tool_js
+		
+		set luci_statistics.collectd_interface.Interfaces='eth1'
+		commit luci_statistics
+
+	EOF
 else
-    echo "Unknown"
+	echo "Unknown"
+fi
 
 ln -sf "/sbin/ip" "/usr/bin/ip"
 
