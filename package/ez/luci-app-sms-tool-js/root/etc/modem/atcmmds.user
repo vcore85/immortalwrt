@@ -1,7 +1,11 @@
-Signal Quality/Strength ➜ AT+CSQ;AT+CSQ
-REBOOT ➜ AT+CFUN=15
-Operator ➜ AT+COPS?
-SIM Status ➜ AT+CPIN?
-Select RAT and BAND ➜ AT+GTACT?
-Get Current Cell Information ➜ AT+GTCCINFO?
-Configure Cell lock information ➜ AT+GTCELLLOCK?
+重启模块 ➜ AT+CFUN=15;AT+CFUN=15
+信号强度/质量 ➜ AT+CSQ;AT+CSQ
+SIM状态 ➜ AT+CPIN?;AT+CPIN?
+运营商 ➜ AT+COPS?;AT+COPS?
+网络注册状态 ➜ AT+CREG?;AT+CREG?
+GPRS注册状态 ➜ AT+CGREG?;AT+CGREG?
+查询开启频段 ➜ AT+GTACT?;AT+GTACT?
+自动选择频段 ➜ AT+GTACT=20;AT+GTACT=20
+锁定5G ➜ AT+GTACT=14;AT+GTACT=14
+获取小区信号 ➜ AT+GTCCINFO?;AT+GTCCINFO?
+锁小区信息 ➜ AT+GTCELLLOCK?;AT+GTCELLLOCK?

@@ -361,6 +361,7 @@ case "$MODE_NUM" in
 	6*) MODE="HSPA";;
 	7*) MODE="LTE";;
 	11*) MODE="5G";;
+	13*) MODE="5G-LTE";;
 	 *) MODE="-";;
 esac
 

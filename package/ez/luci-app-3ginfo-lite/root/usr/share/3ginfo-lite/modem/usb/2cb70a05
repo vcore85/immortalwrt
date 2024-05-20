@@ -151,9 +151,15 @@ IFS="
 fi
 
 
-if [ "x$MODE_NUM" = "x11" ]; then
+if [ "x$MODE_NUM" = "x11" ] ; then
 	O_GTCCINFO=$(sms_tool -d $DEVICE at "AT+GTCCINFO?")
 	NR_BAND=$(echo "$O_GTCCINFO" | awk '/NR service cell:/{getline; print}' | awk -F[,] '{print $9}')
+	PBAND="N$NR_BAND"	
+fi
+
+if [ "x$MODE_NUM" = "x13" ]; then
+	O_GTCCINFO=$(sms_tool -d $DEVICE at "AT+GTCCINFO?")
+	NR_BAND=$(echo "$O_GTCCINFO" | awk '/LTE service cell:/{getline; print}' | awk -F[,] '{print $9}')
 	PBAND="N$NR_BAND"	
 fi
 
