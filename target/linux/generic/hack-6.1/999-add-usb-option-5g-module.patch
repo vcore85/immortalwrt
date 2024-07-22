@@ -3,7 +3,7 @@
 
 --- a/drivers/usb/serial/option.c
 +++ b/drivers/usb/serial/option.c
-@@ -2256,6 +2256,45 @@
+@@ -2256,6 +2256,41 @@
  	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x01a2, 0xff) },			/* Fibocom FM101-GL (laptop MBIM) */
  	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x01a4, 0xff),			/* Fibocom FM101-GL (laptop MBIM) */
  	  .driver_info = RSVD(4) },
@@ -40,10 +40,6 @@
 +	{ USB_DEVICE(0x305a, 0x1405),
 +	  .driver_info = RSVD(3) | RSVD(4) },				/* GXX GM800 MBIM DIAG+AT+MODEM+MBIM+ADB */
 +	{ USB_DEVICE(0x305a, 0x1402) },				/* GXX GM800 DOWNLOAD MODE DIAG+AT+MODEM */
-+	{ USB_DEVICE(0x19d2, 0x1702),
-+	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },						/* ZTE ZM9000  ECM */
-+	{ USB_DEVICE(0x19d2, 0x1703),
-+	  .driver_info = RSVD(4) | RSVD(5) },						/* ZTE ZM9000 RMNET */
 +	{ USB_DEVICE(0x1c9e, 0x9b05),
 +	  .driver_info = RSVD(4) },				/* U8300W */
  	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */

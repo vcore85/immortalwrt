@@ -49,6 +49,27 @@ if [ "$usbpid" = "0105" ]; then
 		commit luci_statistics
 
 	EOF
+elif [ "$usbpid" = "0104" ]; then
+#    echo "FM150-AE"
+	uci -q batch <<-EOF
+		set modemband.@modemband[0].set_port='/dev/ttyUSB2'
+		set modemband.@modemband[0].modemid='2cb7:0104'
+		
+		commit modemband
+		
+		set 3ginfo.@3ginfo[0].device='/dev/ttyUSB2'
+		commit 3ginfo
+		
+		set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB2'
+		set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB2'
+		commit sms_tool_js
+		
+		set luci_statistics.collectd_interface.Interfaces='wwan0'
+		commit luci_statistics
+
+	EOF
 elif [ "$usbpid" = "0a05" ]; then
 #    echo "FM650-CN"
 	uci -q batch <<-EOF

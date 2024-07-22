@@ -18,6 +18,21 @@ if [ "$usbid" = "2cb7:0105" ]; then
 	uci set luci_statistics.collectd_interface.Interfaces='usb0'
 	uci commit luci_statistics
 	/etc/init.d/luci_statistics restart	
+elif [ "$usbid" = "2cb7:0104" ]; then
+    echo "FM150-AE"
+    uci set modemband.@modemband[0].set_port='/dev/ttyUSB2'
+    uci set modemband.@modemband[0].modemid='2cb7:0104'
+    uci commit modemband
+    uci set 3ginfo.@3ginfo[0].device='/dev/ttyUSB2'
+    uci commit 3ginfo
+    uci set sms_tool_js.@sms_tool_js[0].atport='/dev/ttyUSB2'
+    uci set sms_tool_js.@sms_tool_js[0].readport='/dev/ttyUSB2'
+    uci set sms_tool_js.@sms_tool_js[0].sendport='/dev/ttyUSB2'
+    uci set sms_tool_js.@sms_tool_js[0].ussdport='/dev/ttyUSB2'
+    uci commit sms_tool_js
+	uci set luci_statistics.collectd_interface.Interfaces='wwan0'
+	uci commit luci_statistics
+	/etc/init.d/luci_statistics restart	
 elif [ "$usbid" = "2cb7:0a05" ]; then
     echo "FM650-CN"
     uci set modemband.@modemband[0].set_port='/dev/ttyUSB0'

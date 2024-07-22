@@ -3,6 +3,7 @@
 sleep 10
 usbid=`lsusb | grep -i '2cb7' | awk '{print $6}'`
 usbid_fm350=`lsusb | grep -i '0e8d' | awk '{print $6}'`
+usbid_zm9000=`lsusb | grep -i '19d2' | awk '{print $6}'`
 apn=$(uci get 3ginfo.@3ginfo[0].apn)
 
 if [ -n "$usbid" ]; then      
@@ -108,7 +109,26 @@ if [ -n "$usbid_fm350" ]; then
 		done
 	fi
 fi
-
+if [ -n "$usbid_zm9000" ]; then	
+	if [ "$usbid_zm9000" = "19d2:1702" ]; then
+		echo "ZTE ZM9000"
+		sms_tool -d /dev/ttyUSB2 at 'AT+ZIPCALL=1'
+		sleep 20
+		while true
+			do  
+				if [ -z "$(sms_tool -d /dev/ttyUSB2 at 'AT+CGPADDR=1' | grep -o -E '0\.0\.0\.0')" ]; then
+					echo "ZM9000 has IP address"
+					sleep 15
+					continue
+				else
+					echo "ZM9000 no IP address"
+					sms_tool -d /dev/ttyUSB2 at 'AT+ZIPCALL=1'
+					sleep 20
+					logger -t fibercom_connect.sh "ZM9000 reconnect"
+				fi
+		 done
+	fi
+fi
 
 
 
